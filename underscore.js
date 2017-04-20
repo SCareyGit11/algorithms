@@ -1,15 +1,17 @@
 // rewrite some underscore methods
 
 var _ = {
-  // produce a new array by iterating through the array and performing the function on each value
+  // produce a new array by iterating through and performing the function on each value
    map: function(list, callback) {
     if(typeof(callback) == 'function'){
+     var newArr = [];
      for(var i=0; i<list.length; i++){
-      list[i] = callback(list[i]);
+      newArr.push(callback(list[i]));
      }
     };
     console.log(list);
-    return list; 
+    console.log(newArr);
+    return newArr; 
    },
    // boil an array of values down to a single value by performing the function on the values
    // the function is passed the array and returns each step of reduction until down to a single value
