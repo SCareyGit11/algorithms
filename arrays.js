@@ -321,3 +321,134 @@ function nthLargest(arr,n){
 }
 
 nthLargest([5,1,30,3,7,35,22,2,18],4);
+
+
+// credit card validation with the Luhn formula, 
+// 1. accept an array of 20 values 
+// 2. starting from the back, multiply the values in even positions (2nd-to-last, 4th-to-last etc.) by 2
+// 3. if any results > 9, then subtract 9 from them
+// 4. add all numbers (not just odds) together, the sum should be a multiple of 10
+// 5. return a boolean whether the array satisfies the formula
+function isCardValid(num){
+  // if card number is supplied as a string then convert to array of values
+  if(typeof(num) == 'string'){
+    var arr = [];
+    for(var s=0; s<num.length; s++){
+      num[s] = parseInt(num[s],10); 
+      arr.push(num[s]);
+    }
+    num = arr;
+  }
+  if(num.length !== 20){
+    console.log('isCardValid',false);
+    return false;
+  }
+  for(var i=num.length-2; i>=0; i-=2){
+    num[i] = num[i]*2;
+    if(num[i] > 9){
+      num[i] = num[i]-9;
+    }
+  }
+  var sum = 0;
+  for(var j=0; j<num.length; j++){
+    sum += num[j];
+  }
+  if(sum%10 === 0){
+    console.log('isCardValid',true);
+    return true;
+  }
+  else{
+    console.log('isCardValid',false);
+    return false;
+  }
+}
+
+isCardValid([1,2,3]);
+isCardValid([4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4]);
+isCardValid('44444444444444444444');
+
+
+// randomly shuffle a given array's values, work in-place
+function shuffle(arr){
+  // swap the value at each index with the value at a randomly selected index
+  for(var i=0; i<arr.length; i++){
+    var swapIndex = Math.floor(Math.random()*arr.length);
+    console.log('swapIndex',swapIndex);
+    var temp = arr[i];
+    arr[i] = arr[swapIndex];
+    arr[swapIndex] = temp;
+  }
+  console.log('shuffle',arr);
+}
+
+shuffle([1,2,3,4,5,6,7]);
+
+
+// given an array and start and end indeces, remove vals in that index range, 
+// work in place, shortening the array
+function removeRange(arr,start,end){
+  if(!end){
+    end = arr.length-1;
+  }
+  else if(end>=arr.length){
+    console.log('end out of range');
+    return false;
+  }
+  for(var i=end; i>=start; i--){
+    arr[i] = arr[arr.length-1];
+    arr.pop();
+  }
+
+  console.log('removeRange',arr)
+}
+
+removeRange([0,1,2,3,4,5,6,7],2,4);
+removeRange([0,1,2,3,4,5,6,7],2,40);
+removeRange([0,1,2,3,4,5,6,7],2);
+
+// given an array, change it to list each element twice, in order
+function double(arr){
+  for(var i=0; i<arr.length; i+=2){
+    for(var j=arr.length; j>i; j--){
+      arr[j] = arr[j-1];
+    }
+  }
+  console.log('double',arr);
+}
+
+double([0,1,2,3,4,5]);
+
+
+// given an array of numbers 
+// after every nth element, add an element that is the sum of those previous n values
+// if the array does not end aligned evenly with n elements then add
+// the sum of those leftover
+
+//helper function insertAt()
+function intermediateSums(arr, n){
+  var count = 0;
+  var sum = 0;
+  for(var i=0; i<arr.length; i++){
+    sum += arr[i];
+    count++;
+    // if we've summed up n elements or reached the end of the array,
+    // then insert sum after those elements
+    if(i == arr.length-1){
+        arr.push(sum);
+        // break so we don't then continue checking the pushed element
+        break;
+      }
+    else if(count%n === 0){
+      insertAt(arr, i+1, sum);
+      // reset sum and count
+      sum = 0;
+      count = 0;
+      // skip the inserted element so we don't add one sum into the next sum
+      i++;
+    }
+  }
+  console.log('intermediateSums',arr);
+}
+
+intermediateSums([1,2,3],3);
+intermediateSums([1,2,3,4,5],3);
