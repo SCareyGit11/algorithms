@@ -157,3 +157,94 @@ function isAlphabetical(str){
               
 isAlphabetical('alms');
 isAlphabetical('quick');
+
+// recreate the built-in function String.slice(start,end)
+// end parameter is optional and if included refers to one index beyond
+// the last character to include
+function stringSlice(string, start, end){
+  var newString = "";
+  if(!end){
+    end = string.length;
+  }
+  // support for negative index
+  if(start<0){
+    start = string.length+start;
+  }
+  for(var i=start; i<end; i++){
+    newString += string[i];
+  }
+  console.log('stringSlice',newString);
+  return newString;
+}
+
+stringSlice('bacon, lettuce and tomato', 15, 18);
+stringSlice('bacon, lettuce and tomato', 19);
+stringSlice('bacon, lettuce and tomato', -6);
+
+
+// recreate the built-in function String.split(separator)
+// split a string into an array of substrings
+// Separator specifies where to dive sustrings and is not included in any substring
+// limit is optional and indicates the number of splits, discarding all items after the limit
+// return the new array
+function stringSplit(string, separator, limit){
+  var array = [];
+  var substring = "";
+  
+    for(var i=0; i<string.length; i++){
+      
+      if(string[i] === separator){
+        array.push(substring);
+        substring = "";
+      }
+      if(array.length == limit){
+        break;
+      }
+      else{
+        substring += string[i];
+        // if the separator is an empty string then separate at every character
+        if(separator === ""){
+          array.push(substring);
+          substring = "";
+        }
+        // if the last letter of the string is not the separator and 
+        // we are below the limit(if provided), then push the last substring
+        if(i == string.length-1){
+          array.push(substring);
+        }
+      }
+    }
+    
+    
+  console.log('stringSplit',array);
+  return array
+}
+
+stringSplit("Live from New York, It's Saturday Night!", " ");
+stringSplit("Live from New York, It's Saturday Night!", " ", 4);
+stringSplit("Live from New York, It's Saturday Night!", "", 4);
+// stringSplit with no separator and no limit should return 
+// an array of length 1 containing the entire string
+stringSplit("Live from New York, It's Saturday Night!");
+
+
+
+
+// recreate String.search(val)
+// search string for the given value(another string)
+// return the index position of the first match found or -1 if not found
+function stringSearch(string, val){
+  for(var i=0; i<string.length; i++){
+    if(string[i] === val){
+      console.log('stringSearch', i);
+      return i;
+      
+    }
+  }
+  // iterated through the string and val not found
+  console.log('stringSearch, '+ val+' not found');
+  return -1;
+}
+
+stringSearch('alphabet','p');
+stringSearch('alphabet','q');
