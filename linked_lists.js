@@ -46,8 +46,65 @@ function SLL(){
 }
 
 var mySLL = new SLL();
-mySLL.addFront(5).addFront(3).addFront(1);
+mySLL.addFront(7).addFront(5).addFront(3).addFront(1);
 mySLL.removeFront();
 mySLL.contains(5);
 mySLL.contains(1);
 console.log(mySLL.head.val);
+
+SLL.prototype.length = function(){
+  var length = 0;
+  if(!this.head){
+    console.log('length ', length);
+    return length;
+  }
+  else{
+    var runner = this.head;
+    length++;
+    while(runner.next){
+      runner = runner.next;
+      length++;
+    }
+    console.log('length ', length);
+    return length;
+  }
+}
+
+mySLL.length();
+
+
+// return the max value in the list
+SLL.prototype.max = function(){
+  var max, runner;
+  if(this.head){
+    max = this.head;
+    runner = this.head;
+    while(runner.next){
+      runner = runner.next;
+      if(runner.val > max.val){
+        max = runner;
+      }
+    }
+  }
+  console.log('max', max.val);
+  return max.val;
+}
+
+mySLL.max();
+
+// return a string containing all list values
+SLL.prototype.display = function(){
+  var display = "";
+  if(this.head){
+    var runner = this.head;
+    display += runner.val;
+    while(runner.next){
+      runner = runner.next;
+      display += ", "+runner.val;
+    }
+  }
+  console.log('display ', display);
+  return display;
+}
+
+mySLL.display();
