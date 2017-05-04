@@ -108,3 +108,77 @@ SLL.prototype.display = function(){
 }
 
 mySLL.display();
+
+
+
+// create a function that accepts a ListNode pointer and
+// returns the last value in the list
+function back(ListNode){
+  var runner = ListNode;
+  while(runner.next){
+    runner = runner.next;
+  }
+  console.log('back(ListNode)', runner.val);
+  return runner.val;
+}
+
+
+
+// create a function that creates a ListNode with given value
+// and inserts it and the end of a linked list
+SLL.prototype.addBack = function(val){
+  var node = new ListNode(val);
+  if(!this.head){
+    this.head = node;
+  }
+  else{
+    var runner = this.head;
+    while(runner.next){
+      runner = runner.next;
+    }
+    runner.next = node;
+  }
+}
+
+
+
+// create a standalone function that locates the minimum value in a linked list
+// and moves that node to the front of the list.
+// Return the new list with all nodes still present and in the original order
+// (except for the new head node)
+function minToFront(SLL){
+  if(!SLL.head){
+    console.log('minToFront, empty list');
+    return false;
+  }
+  else{
+    var min = SLL.head;
+    var runner = SLL.head;
+    var previous;
+    while(runner.next){
+      // save the node before the min node 
+      if(runner.next.val < min.val){
+        previous = runner;
+        min = runner.next; 
+      }
+      runner = runner.next;
+    }
+    // no more runner.next, end of the line.
+    // if previous is undefined, then the min was already at the head
+    if(previous){
+      // link the node before the min directly to the node after the min
+      previous.next = previous.next.next;
+      // set the min node's next to point to the current head node;
+      min.next = SLL.head;
+      // set the min node at the list's head
+      SLL.head = min;
+    }
+    
+  }
+  console.log('minToFront(SLL)');
+  return SLL;
+}
+
+mySLL.addFront(45);
+minToFront(mySLL);
+mySLL.display();
