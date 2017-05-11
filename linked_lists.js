@@ -182,3 +182,67 @@ function minToFront(SLL){
 mySLL.addFront(45);
 minToFront(mySLL);
 mySLL.display();
+
+
+// create a method of the SLL object that given a value,
+// removes the node with that value from the list.
+// return the new list
+SLL.prototype.remove = function(val){
+  if(!this.head){
+    return this;
+  }
+  else if(this.head.val == val){
+    // remove the current head if its value == val
+    this.head = this.head.next;
+    return this;
+  }
+  else{
+    var runner = this.head;
+    while(runner.next){
+      // check the value of the next node before moving on
+      if(runner.next.val == val){        
+        // if the next value matches val, then remove it by skipping over to runner.next.next
+        runner.next = runner.next.next;
+        return this;
+      }
+      else{
+        // move down the list one space
+        runner = runner.next;
+      }
+    }
+    // if we've gotten here, then we're at the end of the list and val was not present
+    console.log('remove('+val+'); false');
+    
+    return this;
+  }
+}
+
+
+// remove nodes with duplicate values, retain only
+// first instance of each value
+SLL.prototype.removeDuplicates = function(){
+  if(!this.head){
+    console.log('empty list');
+    return false;
+  }
+  else{
+    var unique = [this.head.val];
+    var runner = this.head;
+    while(runner.next){
+      // if we encounter a value that we've already seen, then cut it from the list
+      if(unique.includes(runner.next.val)){
+        console.log('found a duplicate ',runner.next.val);
+        console.log(unique);
+        runner.next = runner.next.next;
+      }
+      else{
+        // if the next value is unique then add it to the array
+        console.log('push '+runner.next.val);
+        unique.push(runner.next.val);
+        // only move on to the next node if we've already confirmed it's val is unique
+        runner = runner.next;
+      }
+      
+    }  // end of while(runner.next)
+  }
+}
