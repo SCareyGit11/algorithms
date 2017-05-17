@@ -1,3 +1,6 @@
+// Queues - sequential data structures with linked list nodes, in this case, singly-linked
+// sequence follows first in, first out rule (FIFO)
+
 // singly-linked node constructor
 function Node(value){
 	this.val = value;
@@ -67,3 +70,4 @@ SLQueue.prototype.front = function(){
 }
 
 
+console.log(myQueue);

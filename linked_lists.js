@@ -1,58 +1,76 @@
-function ListNode(val){
-  this.val = val;
+
+// list node constructor
+function ListNode(value){
+  this.val = value;
   this.next = null;
 }
 
-function SLL(){
+
+// singly-linked list constructor
+function SList(){
   this.head = null;
-  this.addFront = function(val){
-    var node = new ListNode(val);
+   
+}  
+  
+// initialize a new singly-linked list object
+var mySLL = new SList();
+
+// list method to add a new node with given value to the list head
+SList.prototype.addFront = function(value){
+    var node = new ListNode(value);
     if(this.head){
       node.next = this.head;
     }
     this.head = node;
     console.log('addFront',this.head);
     return this;
-  }
-  
-  this.removeFront = function(){
+}
+
+
+// list method to remove the head node from the list and return the existing node that is now at the head
+// return false for empty list, null if list had one node before remove
+SList.prototype.removeFront = function(){
     if(this.head){
       this.head = this.head.next;
+      console.log('removeFront',this.head);
+      return this.head;
     }
-    console.log('removeFront',this.head);
-    return this.head;
-  }
+    else{
+      console.log('empty list');
+      return false;
+    }
+}
   
-  this.contains = function(val){
+SList.prototype.contains = function(value){
     if(this.head){
-      if(this.head.val === val){
-        console.log('contains '+val,true);
+      if(this.head.val === value){
+        console.log('contains '+value,true);
         return true;
       }
       else{
         var runner = this.head;
         while(runner.next){
           runner = runner.next;
-          if(runner.val === val){
-            console.log('contains '+val,true);
+          if(runner.val === value){
+            console.log('contains '+value,true);
             return true;
           }
         }
       }
     }
-    console.log('contains '+val,false);
+    console.log('contains '+value,false);
     return false;
-  }  // end of contains
-}
+}  // end of contains
 
-var mySLL = new SLL();
+
+
 mySLL.addFront(7).addFront(5).addFront(3).addFront(1);
 mySLL.removeFront();
 mySLL.contains(5);
 mySLL.contains(1);
 console.log(mySLL.head.val);
 
-SLL.prototype.length = function(){
+SList.prototype.length = function(){
   var length = 0;
   if(!this.head){
     console.log('length ', length);
@@ -74,7 +92,7 @@ mySLL.length();
 
 
 // return the max value in the list
-SLL.prototype.max = function(){
+SList.prototype.max = function(){
   var max, runner;
   if(this.head){
     max = this.head;
@@ -93,7 +111,7 @@ SLL.prototype.max = function(){
 mySLL.max();
 
 // return a string containing all list values
-SLL.prototype.display = function(){
+SList.prototype.display = function(){
   var display = "";
   if(this.head){
     var runner = this.head;
@@ -111,7 +129,7 @@ mySLL.display();
 
 
 
-// create a function that accepts a ListNode pointer and
+// create a function that accepts a ListNode pointer, then traverses the list from that pointer, and
 // returns the last value in the list
 function back(ListNode){
   var runner = ListNode;
@@ -126,8 +144,8 @@ function back(ListNode){
 
 // create a function that creates a ListNode with given value
 // and inserts it and the end of a linked list
-SLL.prototype.addBack = function(val){
-  var node = new ListNode(val);
+SList.prototype.addBack = function(value){
+  var node = new ListNode(value);
   if(!this.head){
     this.head = node;
   }
@@ -146,14 +164,14 @@ SLL.prototype.addBack = function(val){
 // and moves that node to the front of the list.
 // Return the new list with all nodes still present and in the original order
 // (except for the new head node)
-function minToFront(SLL){
-  if(!SLL.head){
+function minToFront(SList){
+  if(!SList.head){
     console.log('minToFront, empty list');
     return false;
   }
   else{
-    var min = SLL.head;
-    var runner = SLL.head;
+    var min = SList.head;
+    var runner = SList.head;
     var previous;
     while(runner.next){
       // save the node before the min node 
@@ -169,14 +187,14 @@ function minToFront(SLL){
       // link the node before the min directly to the node after the min
       previous.next = previous.next.next;
       // set the min node's next to point to the current head node;
-      min.next = SLL.head;
+      min.next = SList.head;
       // set the min node at the list's head
-      SLL.head = min;
+      SList.head = min;
     }
     
   }
-  console.log('minToFront(SLL)');
-  return SLL;
+  console.log('minToFront(SList)');
+  return SList;
 }
 
 mySLL.addFront(45);
@@ -184,15 +202,15 @@ minToFront(mySLL);
 mySLL.display();
 
 
-// create a method of the SLL object that given a value,
+// create a method of the SList object that given a value,
 // removes the node with that value from the list.
 // return the new list
-SLL.prototype.remove = function(val){
+SList.prototype.remove = function(value){
   if(!this.head){
     return this;
   }
-  else if(this.head.val == val){
-    // remove the current head if its value == val
+  else if(this.head.val == value){
+    // remove the current head if its val == value
     this.head = this.head.next;
     return this;
   }
@@ -200,8 +218,8 @@ SLL.prototype.remove = function(val){
     var runner = this.head;
     while(runner.next){
       // check the value of the next node before moving on
-      if(runner.next.val == val){        
-        // if the next value matches val, then remove it by skipping over to runner.next.next
+      if(runner.next.val == value){        
+        // if the next val matches value, then remove it by skipping over to runner.next.next
         runner.next = runner.next.next;
         return this;
       }
@@ -211,7 +229,7 @@ SLL.prototype.remove = function(val){
       }
     }
     // if we've gotten here, then we're at the end of the list and val was not present
-    console.log('remove('+val+'); false');
+    console.log('remove('+value+'); false');
     
     return this;
   }
@@ -220,13 +238,16 @@ SLL.prototype.remove = function(val){
 
 // remove nodes with duplicate values, retain only
 // first instance of each value
-SLL.prototype.removeDuplicates = function(){
+SList.prototype.removeDuplicates = function(){
   if(!this.head){
     console.log('empty list');
     return false;
   }
   else{
     var unique = [this.head.val];
+    console.log('unique check');
+    console.log(Array.isArray(unique));
+    console.log(unique.includes(this.head.val));
     var runner = this.head;
     while(runner.next){
       // if we encounter a value that we've already seen, then cut it from the list
@@ -246,3 +267,8 @@ SLL.prototype.removeDuplicates = function(){
     }  // end of while(runner.next)
   }
 }
+
+mySLL.addFront(7).addFront(1).addFront(5);
+mySLL.display();
+mySLL.removeDuplicates();
+mySLL.display();
