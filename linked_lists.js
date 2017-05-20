@@ -8,7 +8,7 @@ function ListNode(value){
 
 // singly-linked list constructor
 function SList(){
-  this.head = null;
+  var head = null;
    
 }  
   
