@@ -142,3 +142,34 @@ stacksAreEqual(mySLStack, testStack);
 testStack.push(1);
 testStack.push(3);
 stacksAreEqual(mySLStack, testStack);
+
+
+// given a SLStack containing values, create a new empty second stack and copy 
+// values from the first into the second in the same order
+
+function copy(Stack){
+  var secondStack = new SLStack();
+  if(Stack.top){
+    // set a var runner1 to go down the first stack
+    var runner1 = Stack.top;
+    var value = runner1.val;
+    secondStack.top = new Node(value);
+    var runner2 = secondStack.top;
+    while(runner1.previous){
+      // go down the first stack, making new nodes with values from the first stack
+      // and put those new nodes into the second stack
+      runner1 = runner1.previous;
+      value = runner1.val;
+      runner2.previous = new Node(value);
+      runner2 = runner2.previous;
+    }
+    return secondStack;
+  }
+  else{
+    console.log('empty stack');
+    return false;
+  }
+}
+
+var mysecondSLStack = copy(mySLStack);
+console.log(mysecondSLStack);
