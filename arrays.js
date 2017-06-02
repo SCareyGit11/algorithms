@@ -525,3 +525,120 @@ function upvotes(arr,K){
 
 upvotes([1,2,3,1,1],3);
 upvotes([1,1,1,5,4,5,2],4);
+
+
+
+// a function that returns whether an array has a balance point Between indices
+// where the sum to the left is equal to the sum on the right
+
+function balancePoint(array){
+  // corner cases
+  if(array.length === 0 || array.length == 1){
+    return false;
+  }
+
+  // first get the sum of the whole array
+  var sum = 0,
+      len = array.length;
+  for(var i=0; i<len; i++){
+    sum += array[i];
+  }
+  // iterate again. At each index, get the partial sum up to and including that index.  Then compare 
+  // the partial to the sum without the partial
+  var partial = 0;
+  for(var j=0; j<len-1; j++){
+    partial += array[j];
+    if(partial == sum-partial){
+      return true;
+    }
+    
+  } // out of second iteration, if we're here then we never found a balance point
+  return false;
+}
+
+var x = [1,2,3,4,5,10];
+var y = [1,2,3,4,10]
+console.log(balancePoint(x));
+console.log(balancePoint(y));
+
+
+// a function like balancePoint but this time, if there is a point ON an index
+// where values to the left equal the sum of values to the right, then return 
+// that index.  Return -1 if there is no such index
+
+function balanceOn(array){
+  // corner cases
+  if(array.length == 1){
+    return 0;
+  }
+  if(array.length === 0 || array.length == 2){
+    return -1;
+  }
+
+  var sum = 0,
+      len = array.length;
+
+  for(var i=0; i<len; i++){
+    sum += array[i];
+  }
+
+  var partial = 0;
+  // do not include the value of the balanceOn index, compare the sum to the left
+  // to the sum on the right
+  for(var j=1; j<len; j++){
+    partial += array[j-1];
+    if(partial == sum-partial-array[j]){
+      return j;
+    }
+  } // out of second iteration, no balanceOn found
+  return -1;
+}
+
+
+// given a large sorted array and a value, use 'divide and conquer' to quickly 
+// scan the array and return whether the value is present
+// given a large sorted array and a value, use 'divide and conquer' to quickly 
+// scan the array and return whether the value is present
+function binarySearch(array, value){
+  var len = array.length;
+  // corner case
+  // is value outside the array?
+  if(value < array[0] || value > array[len-1]){
+    return false;
+  }
+  // does value equal either the first or last values in the array?
+  if(value == array[0] || value == array[len-1]){
+    return true;
+  }
+  
+  // otherwise, get the midpoint
+  var mid_index = Math.floor(len/2);
+  
+  // does value equal the midpoint?
+  if(value == array[mid_index]){
+    return true;
+  }
+  
+  // if we've shrunk the array down to one or zero values and haven't found the value
+  else if(len <=1){
+    return false;
+  }
+  
+  // still looking? narrow the search..
+  var search_array = array;
+  if(value > search_array[mid_index]){
+    search_array = search_array.slice(mid_index+1);
+  }
+  // value is < this midpoint
+  else{
+    search_array = search_array.slice(0,mid_index);
+  }
+  return binarySearch(search_array, value);
+}
+
+var arr = [];
+for(var x=1; x<50000; x++){
+  arr.push(3*x);
+}
+
+console.log(binarySearch(arr, 14031));
