@@ -642,3 +642,29 @@ for(var x=1; x<50000; x++){
 }
 
 console.log(binarySearch(arr, 14031));
+
+
+
+// given an array, eliminate nested and empty arrays.
+// do not alter original, return a new array, maintaining original order
+function flatten(array){
+  var new_array = [],
+      len = array.length;
+  
+  for(var i=0; i<len; i++){
+    if(!Array.isArray(array[i])){
+      new_array = new_array.concat(array[i]);
+      
+    }
+    else{
+      if(array[i].length > 0){
+        new_array = new_array.concat(flatten(array[i]));
+      }
+      // skip over empty arrays
+    }
+  }
+  return new_array;
+}
+
+var y = [1,[2,3],[4,[5,[6]],[]],[],7];
+console.log(flatten(y));
