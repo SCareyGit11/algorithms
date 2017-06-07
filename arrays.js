@@ -83,6 +83,55 @@ function removeDuplicates(arr){
 
 removeDuplicates([1,2,2,3,4,4,4,4,5]);
 
+// remove duplicates again but this time from an unsorted array,
+// work in place (same array), we do not need to maintain the original order (stability) 
+
+function remDuplicates(array){
+  
+  for(var i=0; i<array.length-1; i++){
+    for(var j=array.length-1; j>i; j--){
+      // if we find a duplicate, then copy over the last value, then pop();
+      if(array[j] == array[i]){
+        array[j] = array[array.length-1];
+        array.pop();
+      }
+      // since we're iterating from both sides, we might as well look for duplicates with both iterators
+      if(j != array.length-1 && array[j] == array[array.length-1]){
+        array.pop();
+      }
+      
+    }
+  }
+  console.log(array);
+  return array;
+}
+
+
+// remove duplicates again from an unsorted array,
+// this time, work in place (same array) AND maintain order (stable) 
+function remDuplicatesStable(array){
+  
+  for(var i=0; i<array.length-1; i++){
+    for(var j=array.length-1; j>i; j--){
+      // if we find a duplicate, copy elements left, then pop();
+      if(array[j] == array[i]){
+        for(var k=j; k<array.length-1; k++){
+          array[k] = array[k+1];
+        }
+        
+        array.pop();
+      }
+      // since we're iterating from both sides, we might as well look for duplicates with both iterators
+      if(j != array.length-1 && array[j] == array[array.length-1]){
+        array.pop();
+      }
+      
+    }
+  }
+  console.log(array);
+  return array;
+}
+
 
 // given an array of values, move the lowest value to the front
 // do not otherwise change the order
