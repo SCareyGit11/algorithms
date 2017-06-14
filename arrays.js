@@ -717,3 +717,33 @@ function flatten(array){
 
 var y = [1,[2,3],[4,[5,[6]],[]],[],7];
 console.log(flatten(y));
+
+
+
+// given an array, return the mode, the most frequent value in the array
+function mode(array){
+  var values = [{name:array[0], count:1}],
+      mode_index = 0;
+  
+  for(var i=1; i<array.length; i++){
+    
+    for(var j=0; j<values.length; j++){
+      if(values[j].name == array[i]){
+        values[j].count++;
+        if(values[j].count > values[mode_index].count){
+          mode_index = j;
+        }
+        break;
+      }
+    }
+    if(j == values.length){
+      values.push({name:array[i], count:1})
+    }
+  }
+  console.log(values);
+  
+  console.log('mode is '+values[mode_index].name);
+  return values[mode_index].name;
+}
+
+mode([1,2,3,2,3,3]);
