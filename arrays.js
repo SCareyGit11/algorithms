@@ -747,3 +747,66 @@ function mode(array){
 }
 
 mode([1,2,3,2,3,3]);
+
+
+// You are given an unsorted array of length N, which contains integers from 0 to N with 
+// one integer missing.  Return the missing integer.  Ex. given [0,3,1] return 2
+
+function missingValue(array){
+  var N = array.length,
+      // compare the sum of the values in the array to the sum of all integers
+      // from 0 to N
+      sigma = 0,
+      sum = 0;
+  for(var i=0; i<N; i++){
+    sum += array[i];
+    sigma += i+1;
+    
+  }
+  
+  
+  var difference = sigma - sum;
+  console.log('missingValue is '+difference);
+  return difference;
+}
+
+missingValue([0,3,1]);
+missingValue([2,3,1]);
+missingValue([8,3,7,2,1,9,5,4,0]);
+
+
+// Second, redo missingValue but now the lowest value can be any integer, instead of always being zero
+// find the integer that is missing from lowest value to N
+
+function missingValueRev(array){
+  var N = array.length
+      // high = N + the lowest value
+      function sigma(low, high){
+        var sigma_sum = 0;
+        for(var n=low; n<=high; n++){
+          sigma_sum += n;
+          
+        }
+        return sigma_sum;
+      }
+  var sum = array[0],
+      min = array[0];
+  
+  for(var i=1; i<N; i++){
+    sum += array[i];
+    
+    if(array[i] < min){
+      min = array[i];
+    }
+    
+  }
+  var sigma = sigma(min, N+min);
+  
+  var difference = sigma - sum;
+  console.log('missingValueRev is '+difference);
+  return difference;
+}
+
+
+missingValueRev([8,3,7,2,1,9,5,4]);
+missingValueRev([2,-4,0,-2,-3,1]);
