@@ -810,3 +810,20 @@ function missingValueRev(array){
 
 missingValueRev([8,3,7,2,1,9,5,4]);
 missingValueRev([2,-4,0,-2,-3,1]);
+
+
+// a function that accepts to non-negative integers.  It should return the last
+// digit of a number found by raising the first number, a, to an exponent of the second
+// number, b.  Ex. given (3,4) the function should return 1 because 3x3x3x3=81.
+
+function lastDigitAtoB(a,b){
+  var num = Math.pow(a,b);
+  num = num.toString();
+  num = num.slice(-1);
+  console.log('lastDigit is '+num);
+  num = parseInt(num);
+  return num;
+}
+
+lastDigitAtoB(3,4);
+lastDigitAtoB(12,5);
