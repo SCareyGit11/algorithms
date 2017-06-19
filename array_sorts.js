@@ -125,3 +125,96 @@ for(var n=0; n<1000; n++){
 }
 
 insertionSort(insert_arr);
+
+
+// a function that sorts two already separately sorted arrays,
+// placing the result back into the first provided array
+
+function combineArrays(array1, array2){
+  var temp,
+      j=0;
+  for(var i=0; i<array2.length; i++){
+    temp = array2[i];
+    // inspect each element in array2 and insert it in its proper place in array1
+    while(j<array1.length){
+      if(temp < array1[j]){
+        // copy right and insert
+        for(var k=array1.length; k>j; k--){
+          array1[k] = array1[k-1];
+        }
+        array1[j] = temp;
+        break;
+      }
+      j++;
+    } // end of array1 loop
+    if(j == array1.length){
+      // if we're here then we've found an array2 value >= all array1 values
+      temp = array2.slice(i);
+      
+      array1 = array1.concat(temp);
+      console.log(array1);
+      return array1;
+    }
+  } // end of array2 for loop, if we're here then all array2 values fit within array1 bounds
+  console.log(array1);
+  return array1;
+}
+
+var arr1 = [],
+    arr2 = [];
+for(var n=0; n<1000; n++){
+  arr1.push(n);
+  arr2.push(n*2);
+}
+
+
+arr1 = combineArrays(arr1,arr2);
+console.log(arr1.length);
+
+
+// a function that will combine two already sorted separate arrays into one new 
+// sorted array, this function will be used as a helper for merge sort
+function combineArrays2(arr1,arr2){
+  var new_arr = [];
+  
+  // using this function within mergeSort, so we can't assume arrays
+  while(arr1.length && arr2.length){
+    
+    if(arr1[0] <= arr2[0]){
+      new_arr.push(arr1.shift())
+    }
+    else{
+      new_arr.push(arr2.shift());
+    }
+  } // end of while loop, at least one array is now empty
+  while(arr1.length){
+    new_arr.push(arr1.shift());
+  }
+  while(arr2.length){
+    new_arr.push(arr2.shift());
+  }
+  
+  
+  return new_arr;
+}
+
+// merge sort takes an unsorted array  of length=n and recursively breaks it all the way down into n separate arrays
+// containing one value each.  Since an array of one element is inherently sorted, combineArrays2 can sort up from there.
+// The two functions stitch these arrays back together until we have one array with all the values sorted.
+function mergeSort(arr){
+  if(arr.length > 1){
+    var middle = Math.floor(arr.length/2),
+        left = arr.slice(0,middle),
+        right = arr.slice(middle);
+    
+    return combineArrays2(mergeSort(left), mergeSort(right));
+  }
+  else{
+    return arr;
+  }
+}
+
+var merge_arr = [];
+for(var n=0; n<5000; n++){
+  merge_arr.push(Math.floor(Math.random()*100));
+}
