@@ -1,3 +1,7 @@
+
+
+
+
 // bubble sort in-place
 // the function repeatedly steps through the list to be sorted, compares each pair 
 // of adjacent items and swaps them if they are in the wrong order. The pass through 
@@ -7,8 +11,7 @@
 function bubbleSort(array){
   var len = array.length,
       max_index = len-1,
-      sorted,
-      temp;
+      sorted;
   
     while(max_index > 0){
 
@@ -18,6 +21,7 @@ function bubbleSort(array){
       for(var j=0; j<max_index; j++){
         if(array[j] > array[j+1]){
           sorted = false;
+          
           temp = array[j+1];
           array[j+1] = array[j];
           array[j] = temp;
@@ -218,3 +222,57 @@ var merge_arr = [];
 for(var n=0; n<5000; n++){
   merge_arr.push(Math.floor(Math.random()*100));
 }
+
+
+// helper function
+function swap(array,first,second){
+  var temp = array[second];
+  array[second] = array[first];
+  array[first] = temp;
+}
+
+function partition(array,left,right){
+  var i = left,
+      j = right,
+      pivot = array[Math.floor((left+right)/2)];
+  
+  while(i <= j){
+    while(array[i] < pivot){
+      i++;
+    }
+    while(array[j] > pivot){
+      j--;
+    }
+    if(i <= j){
+      swap(array,i,j);
+      
+      i++;
+      j--;
+    }
+  }
+  return i;
+}
+
+var parr = [];
+for(n=0; n<1000; n++){
+  parr.push(Math.floor(Math.random()*100));
+}
+
+
+function quicksort(array,left,right){
+  var index;
+  if(array.length > 1){
+    index = partition(array,left,right);
+    
+    if(left < index-1){
+      quicksort(array,left,index-1);
+    }
+    if(index < right){
+      quicksort(array,index,right);
+    }
+  }
+  
+  return array;
+}
+
+console.log(quicksort(parr,0,parr.length-1));
